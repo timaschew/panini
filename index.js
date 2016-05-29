@@ -1,15 +1,15 @@
-var panini;
-
 /**
  * Initializes an instance of Panini.
  * @constructor
  * @param {object} options - Configuration options to use.
  */
-function Panini(options) {
+function Panini(options, i18n) {
   this.options = options;
   this.Handlebars = require('handlebars');
   this.layouts = {};
-  this.data = {};
+  this.data = {
+    i18n: i18n
+  };
 
   if (!options.layouts) {
     throw new Error('Panini error: you must specify a directory for layouts.');
@@ -33,16 +33,15 @@ Panini.prototype.render = require('./lib/render');
  * @param {object} options - Configuration options to pass to the new Panini instance.
  * @returns {function} Transform stream function that renders HTML pages.
  */
-module.exports = function(options) {
-  if (!panini) {
-    panini = new Panini(options);
-    panini.loadBuiltinHelpers();
-    panini.refresh();
-    module.exports.refresh = panini.refresh.bind(panini);
-  }
+module.exports = function(options, i18n) {
+  var panini = new Panini(options, i18n.data);
+  panini.loadBuiltinHelpers();
+  panini.Handlebars.registerHelper('renderMarkdown', require('./helpers/markdown-hbs'));
+  panini.refresh();
+  module.exports.refresh = panini.refresh.bind(panini);
 
   // Compile pages with the above helpers
-  return panini.render();
+  return panini.render(i18n);
 }
 
 module.exports.Panini = Panini;

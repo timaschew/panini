@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!--STYLES-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/styles/bootstrap.min.css">
     <link rel="stylesheet" href="/admin/styles/dropzone.css">
     <link rel="stylesheet" href="/admin/styles/editor.css">
     <!--STYLES END-->
@@ -16,52 +16,96 @@
 
   <body>
     <div class="container">
-<div class="editorwrap row">
+      <div class="row">
+        <div class="col-md-3 col-xs-12 settings">
+          <h3>Sidebar</h3>
+          <hr/>
+          <div>
+            <label>Language:
+              <select class="article-language">
+                <option>en</option>
+              </select>
+            </label>
+            <label>Filename:<br/>
+              <input id="article-filename" />
+            </label>
+            <label>Directory:<br/>
+              <input id="article-directory" />
+            </label>
+            <input id="old-fullpath" type="hidden" />
+            <hr/>
+            <h5>Files</h5>
+            <div class="file-list">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6">
+              <h1><input id="article-name" value="Title" /></h1>
+            </div>
+            <div class="col-md-6" style="margin-top: 1em;">
+              <div class="row">
+                <div class="col-md-7">
+                  <button type="button" class="article-settings btn" title="Article Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <div class="col-md-5">
+                  <button class="btn btn-primary save-article">Save</button>
+                  <!-- <div class="dropdown">
+                    <button class="btn btn-primary" id="dLabel" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                      Dropdown trigger
+                      <span class="caret"></span>
+                    </button>
 
-    <!-- Markdown Editor -->
-    <section class="entry-markdown col-md-6 col-xs-1">
-        <header class="floatingheader">
-            <small>Markdown</small>
-            <a class="markdown-help" href="#"><span class="hidden">What is Markdown?</span></a>
-        </header>
-        <section class="entry-markdown-content">
-<textarea id="entry-markdown">
-### What about Images?
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li><a href="#">Save Draft</a></li>
+                      <li><a href="#">Publish Now</a></li>
+                      <li role="separator" class="divider"></li>
+                    </ul>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="editorwrap row">
+            <!-- Markdown Editor -->
+            <section class="entry-markdown col-md-6 col-xs-6">
+                <header class="floatingheader">
+                    <small>Markdown</small>
+                    <a class="markdown-help" href="#"><span class="hidden">What is Markdown?</span></a>
+                </header>
+                <section class="entry-markdown-content">
+                  <textarea id="entry-markdown"></textarea>
+                </section>
+            </section>
+            <!-- Markdown Editor END-->
 
-![A placeholder for image]
+            <!-- Markdown Preview -->
+            <section class="entry-preview active col-md-6 col-xs-6">
+                <header class="floatingheader">
+                    <small class="pull-left">Preview</small>
+                    <small class="pull-right"> <span class="entry-word-count js-entry-word-count">77 words</span></small>
+                </header>
+                <section class="entry-preview-content">
+                    <div class="rendered-markdown"></div>
+                </section>
+            </section>
+            <!-- Markdown Preview END-->
+          </div>
+        </div>
+      </div>  <!--- <div class="row"> -->
+    </div> <!--- <div class="container"> -->
 
-Images work too! Already know the URL of the image you want to include in your article? Simply paste it in like this to make it show up:
-
-![A bowl of bananas]
-
-![The Ghost Logo](http://tryghost.org/ghost.png)
-
-Not sure which image you want to use yet? That's ok too. Leave yourself a descriptive placeholder and keep writing. Come back later and drag and drop the image in to upload:
-
-![A bowl of bananas]
-</textarea>
-        </section>
-    </section>
-    <!-- Markdown Editor END-->
-
-    <!-- Markdown Preview -->
-    <section class="entry-preview active col-md-6 col-xs-1">
-        <header class="floatingheader">
-            <small class="pull-left">Preview</small>
-            <small class="pull-right"> <span class="entry-word-count js-entry-word-count">77 words</span></small>
-        </header>
-        <section class="entry-preview-content">
-            <div class="rendered-markdown"></div>
-        </section>
-    </section>
-    <!-- Markdown Preview END-->
-</div>
-</div>
-
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/admin/js/jquery-1.10.1.min.js"></script>
     <!--SCRIPTS-->
     <script src="/admin/js/dropzone.js"></script>
-    <script src="/admin/js/ghostdown.js"></script>
+    <script src="/admin/js/codemirror.js"></script>
+    <script src="/admin/js/showdown.js"></script>
+    <script src="/admin/js/bootstrap.js"></script>
+    <script src="/admin/js/kebabCase.js"></script>
+    <script src="/admin/js/main.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

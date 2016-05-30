@@ -11,6 +11,7 @@
   "author": "Geoff Kimball <geoff@zurb.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.1",
     "browser-sync": "^2.12.10",
     "deepmerge": "^0.2.10",
     "express": "^4.13.4",
@@ -24,6 +25,7 @@
     "marked": "^0.3.5",
     "mkdirp": "^0.5.1",
     "multer": "^1.1.0",
+    "remove-empty-directories": "0.0.1",
     "rimraf": "^2.5.2",
     "through2": "^2.0.0"
   },

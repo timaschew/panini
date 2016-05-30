@@ -38,7 +38,7 @@ module.exports = function(context) {
     var directoryOnly = context.data.root.directory;
     var i18nKey = context.data.root.i18n.__key
 
-    var markdownPath = path.join(SRC_DIRECTORY, 'data/md', directoryOnly, pageName + '-' + i18nKey) + '.md';
+    var markdownPath = path.join(SRC_DIRECTORY, 'data/md', directoryOnly, pageName) + '.md';
     var content = fs.readFileSync(markdownPath, {encoding: 'utf8'});
     var parsed = frontMatter(content);
     var compiled = marked(wrapHandlebar(parsed.body));

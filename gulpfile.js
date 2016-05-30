@@ -21,7 +21,8 @@ const OUTPUT_DIRECTORY = OUTPUT_PARENT + '/browser-sync'
 
 const buildTasks = [
   clean,
-  pages
+  pages,
+  copy
 ]
 
 gulp.task('pages:build', gulp.series(buildTasks))
@@ -73,10 +74,24 @@ function pages(done) {
         }
         callback()
       }))
+      .pipe(through2.obj(function (chunk, enc, callback) {
+        if (chunk.i18nDirectory != null) {
+          var filePath = path.relative(path.join(__dirname, 'src/pages'), chunk.path)
+          chunk.path = path.resolve('src/pages', chunk.i18nDirectory, filePath)
+        }
+        this.push(chunk)
+        callback()
+      }))
       .pipe(gulp.dest(OUTPUT_DIRECTORY))
       // need to synhronize because files are multiplicated on the fly for each language
       .pipe(synchronizer(incDoneCounter))
   })
+}
+
+// copy static assets
+function copy(done) {
+  return gulp.src(SRC_DIRECTORY + '/data/assets/**/*')
+    .pipe(gulp.dest(OUTPUT_DIRECTORY + '/assets'))
 }
 
 // Delete the "dist" folder

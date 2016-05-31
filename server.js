@@ -8,6 +8,7 @@ const multer  = require('multer')
 const bodyParser = require('body-parser')
 const fm = require('front-matter')
 const mkdirp = require('mkdirp')
+const touch = require("touch")
 const removeDirectories = require('remove-empty-directories')
 
 const app = express()
@@ -71,14 +72,19 @@ app.post('/file', bodyParser.urlencoded(), (request, respones) => {
     request.body.directory,
     request.body.filename
   )
-  const oldPath = path.join('src/data/md', request.body.oldPath)
+  const oldFullPath = path.join('src/data/md', request.body.oldPath)
   const fileContent = objectToFm(request.body.attributes) + request.body.content
   mkdirp.sync(path.dirname(filePath))
   fs.writeFileSync(filePath + '.md', fileContent)
-  if (oldPath != null && oldPath !== filePath) {
-    console.log('seems that file was moved from <', oldPath, ' to >', filePath)
-    fs.unlinkSync(oldPath + '.md')
+  var entryFilePath = path.join('src/pages/', request.body.directory, request.body.filename)
+  mkdirp.sync(path.dirname(entryFilePath))
+  touch.sync(entryFilePath + '.html')
+  if (request.body.oldPath != null && request.body.oldPath != '' && oldFullPath !== filePath) {
+    console.log('seems that file was moved from < ', oldFullPath, ' to > ', filePath)
+    fs.unlinkSync(oldFullPath + '.md')
+    fs.unlinkSync(oldFullPath.replace('src/data/md/' + request.body.language, 'src/pages') + '.html')
     removeDirectories('src/data/md')
+    removeDirectories('src/pages')
   }
   respones.json({saved: true})
 })

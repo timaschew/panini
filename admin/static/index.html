@@ -19,7 +19,9 @@
       <div class="row">
         <div class="col-md-3 col-xs-12 settings">
           <h3>Sidebar</h3>
+          <h4>Markdown Editor</h4>
           <hr/>
+          <h5>Current File:</h5>
           <div>
             <label>Language:
               <select class="article-language">
@@ -34,7 +36,7 @@
             </label>
             <input id="old-fullpath" type="hidden" />
             <hr/>
-            <h5>Files</h5>
+            <h5>All MD Files:</h5>
             <div class="file-list">
             </div>
           </div>
@@ -85,7 +87,7 @@
             <!-- Markdown Preview -->
             <section class="entry-preview active col-md-6 col-xs-6">
                 <header class="floatingheader">
-                    <small class="pull-left">Preview</small>
+                    <small class="pull-left"><a id="article-preview" href="" target="_blank">Preview with Layout</a></small>
                     <small class="pull-right"> <span class="entry-word-count js-entry-word-count">77 words</span></small>
                 </header>
                 <section class="entry-preview-content">

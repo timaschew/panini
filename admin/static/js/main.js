@@ -102,8 +102,10 @@
         $.get('/files/' + $(event.target).attr('data-article-link'), function(data) {
           console.log('result', data)
           editor.setValue(data.content);
-					$('#old-fullpath').val(data.language + '/' + (data.directory !== '.' ? data.directory + '/' : '') + data.filename);
-          $('#article-filename').val(data.filename);
+					var filePath = data.language + '/' + (data.directory !== '.' ? data.directory + '/' : '') + data.filename;
+					$('#old-fullpath').val(filePath);
+  				$('#article-preview').attr('href', 'http://localhost:5000/' + filePath + '.html');
+					$('#article-filename').val(data.filename);
           $('#article-directory').val(data.directory);
           $('#article-name').val(data.attributes.title || 'no-title');
         })

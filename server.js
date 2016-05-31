@@ -31,7 +31,6 @@ app.use(DOWNLOAD_IMG_PATH, express.static('src/data/img'))
 
 app.get('/files/*', (request, response) => {
   const filePath = request.params[0]
-  // TOOD: parse with front matter and pass attributes as well
   const fileContent = fs.readFileSync(path.join('src/data/md', filePath), {encoding: 'utf8'})
   const splittedPath = filePath.split('/')
   const language = splittedPath[0]
@@ -57,14 +56,13 @@ app.post('/file', bodyParser.urlencoded(), (request, respones) => {
     request.body.directory,
     request.body.filename
   )
-  const oldPath = request.body.oldPath
+  const oldPath = path.join('src/data/md', request.body.oldPath)
   const fileContent = objectToFm(request.body.attributes) + request.body.content
   mkdirp.sync(path.dirname(filePath))
   fs.writeFileSync(filePath + '.md', fileContent)
   if (oldPath != null && oldPath !== filePath) {
     console.log('seems that file was moved from <', oldPath, ' to >', filePath)
-    var oldFullPath = path.join('src/data/md', oldPath)
-    fs.unlinkSync(oldFullPath + '.md')
+    fs.unlinkSync(oldPath + '.md')
     removeDirectories('src/data/md')
   }
   respones.json({saved: true})

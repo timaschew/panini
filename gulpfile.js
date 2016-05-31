@@ -111,7 +111,7 @@ function server(done) {
   browser.init({
     server: {
       directory: true,
-      baseDir: OUTPUT_PARENT
+      baseDir: OUTPUT_DIRECTORY
     },
     port: 5000,
     open: false

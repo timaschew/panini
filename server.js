@@ -26,6 +26,21 @@ app.post('/article/imgupload', upload.single('file'), (request, response) => {
   })
 })
 app.use('/', express.static('dist/browser-sync'))
+app.use('/admin/js/hbs-helper.js', (request, response) => {
+  let jsContent = ''
+  const partials = glob.sync('src/partials/**.hbs')
+  partials.forEach(filePath => {
+    const fileContent = fs.readFileSync(filePath, {encoding: 'utf8'})
+    const basename = path.basename(filePath, path.extname(filePath))
+    jsContent = `
+    Handlebars.registerPartial("${basename}",
+      "${fileContent.replace(/\n/g, ' ').replace(/"/g, '\"')}"
+    );
+    `
+  })
+  // TODO: load helpers
+  response.send(jsContent)
+})
 app.use('/admin', express.static('admin/static'))
 app.use(DOWNLOAD_IMG_PATH, express.static('src/data/img'))
 

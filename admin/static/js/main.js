@@ -67,8 +67,11 @@
 
 		function updatePreview() {
 			var preview = document.getElementsByClassName('rendered-markdown')[0];
-			preview.innerHTML = converter.makeHtml(editor.getValue());
-
+			var htmlContentWithHbs = converter.makeHtml(wrapHandlebar(editor.getValue()));
+			var template = Handlebars.compile(htmlContentWithHbs);
+			// TODO: inject context
+	    var mardownedAndHandlebared = unescapeHbs(template({}));
+			preview.innerHTML = mardownedAndHandlebared;
 			updateImagePlaceholders(preview.innerHTML);
 			updateWordCount();
 		}
@@ -181,4 +184,27 @@ function makeUL(array) {
     }
     // Finally, return the constructed list:
     return list;
+}
+
+/* Markdown wrap as default everything into a paragraph.
+ * But when you call a hbs helper/partial wrap it with a <div> by default if it's not wrapped already
+ */
+function wrapHandlebar(content) {
+  return content.replace(/(<.*>)?({{.*}})(<\/.*>)?/g, function (ctx, pre, hbs, post) {
+    if (pre == null || post === null) {
+      return '<div>' + hbs + '</div>' // wrap into div
+    }
+    return pre + hbs + post // it is wrapped already
+  })
+}
+
+function unescapeHbs(content) {
+  // use a library here which handle all cases
+  return content.replace(/{{(.*)}}/g, function (a, b) {
+    var transformed = b
+      .replace(/&gt;/g, '>')
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+    return '{{' + transformed + ' }}'
+  })
 }
